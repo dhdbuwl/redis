@@ -19,8 +19,7 @@ class ZPopMin extends AbstractCommandHandel
         if (!is_null($count) && $count > 1) {
             $command[] = $count;
         }
-        $commandData = array_merge($command);
-        return $commandData;
+        return $command;
     }
     
     
@@ -30,10 +29,8 @@ class ZPopMin extends AbstractCommandHandel
         
         $result = [];
         foreach ($data as $k => $va) {
-            if ($k % 2 == 0) {
-                $result[$this->unSerialize($va)] = 0;
-            } else {
-                $result[$this->unSerialize($data[$k - 1])] = $va;
+            if ($k % 2 == 1) {
+                $result[$this->unSerialize($data[$k - 1])] = $this->unSerialize($va);
             }
         }
         

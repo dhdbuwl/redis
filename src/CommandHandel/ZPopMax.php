@@ -15,15 +15,12 @@ class ZPopMax extends AbstractCommandHandel
         $this->setClusterExecClientByKey($key);
         $count = array_shift($data);
         
-        $this->count = $count;
         $command = [CommandConst::ZPOPMAX, $key];
         if (!is_null($count) && $count > 1) {
             $command[] = $count;
         }
-        $commandData = array_merge($command);
-        return $commandData;
+        return $command;
     }
-    
     
     public function handelRecv(Response $recv)
     {
@@ -31,7 +28,7 @@ class ZPopMax extends AbstractCommandHandel
         $result = [];
         foreach ($data as $k => $va) {
             if ($k % 2 == 1) {
-                $result[$this->unSerialize($va)] = $this->unSerialize($data[$k - 1]);
+                $result[$this->unSerialize($data[$k - 1])] = $this->unSerialize($va);
             }
         }
         
